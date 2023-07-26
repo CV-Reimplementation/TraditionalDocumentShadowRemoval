@@ -153,13 +153,15 @@ def process(f_name):
     merged = cv2.merge([G_, cr, cb], 3)
     merged = cv2.cvtColor(merged, cv2.COLOR_YCrCb2BGR)
 
-    cv2.imwrite(os.path.basename(f_name), merged)
+    cv2.imwrite(os.path.join('result', os.path.basename(f_name)), merged)
 
 def main():
 
-    folder = 'dataset/Kligler/test/input/'
+    folder = './input/'
 
     file_names = os.listdir(folder)
+
+    os.makedirs('result', exist_ok=True)
 
     file_names = [folder + f_name for f_name in file_names]
 

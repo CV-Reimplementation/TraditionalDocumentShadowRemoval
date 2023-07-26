@@ -9,7 +9,9 @@ import os
 
 def main():
 
-    folder = 'dataset/Kligler/test/input/'
+    folder = './input/'
+
+    os.makedirs('result', exist_ok=True)
 
     file_names = os.listdir(folder)
 
@@ -56,7 +58,7 @@ def process(filename):
     I_deshadow = generate_deshadow(ip_img, I_local, I_global, is_0_255)
     I_deshadow_refined = generate_deshadow(ip_img, I_local_refined, I_global, is_0_255)
     pil_image = Image.fromarray(np.uint8(I_deshadow_refined))
-    pil_image.save(os.path.basename(filename))
+    pil_image.save(os.path.join('result', os.path.basename(filename)))
 
 if __name__ == '__main__':
     main()

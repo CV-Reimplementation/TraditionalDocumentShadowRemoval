@@ -88,14 +88,16 @@ def removeShadow(filename):
   G = get_GlobalBG(L) # get the global background color
   final = get_FinalImg(img, L, G) # show the input vs output
   tuned = fineTune(img, L, G, final) # show effects of tuning
-  mpimg.imsave(os.path.basename(filename), tuned)
+  mpimg.imsave(os.path.join('result', os.path.basename(filename)), tuned)
 
 
 def main():
 
-  folder = 'Jung/test/input/'
+  folder = './input/'
 
   file_names = os.listdir(folder)
+
+  os.makedirs('result', exist_ok=True)
 
   file_names = [folder + f_name for f_name in file_names]
 

@@ -25,11 +25,13 @@ def process(filename):
         iter_img, iter_binary_img = estimate_shading_reflectance(iter_img, iter_binary_img, window_size)
 
     pil_image = Image.fromarray(np.uint8(iter_img))
-    pil_image.save(os.path.basename(filename))
+    pil_image.save(os.path.join('result', os.path.basename(filename)))
 
 def main():
 
-    folder = 'Kligler/test/input/'
+    folder = './input/'
+
+    os.makedirs('result', exist_ok=True)
 
     file_names = os.listdir(folder)
 
