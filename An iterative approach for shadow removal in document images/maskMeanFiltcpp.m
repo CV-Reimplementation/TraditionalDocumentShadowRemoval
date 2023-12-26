@@ -41,3 +41,45 @@ divided(:,:,1) = divided(:,:,1) * gmean(1);
 divided(:,:,2) = divided(:,:,2) * gmean(2);
 divided(:,:,3) = divided(:,:,3) * gmean(3);
 end
+function sh = maskMeanFilt(im, mask)
+    % Define constants
+    INITIAL_WINDOW_SIZE = 11;
+    MIN_PIXELS = 25;
+
+    % Initialize sh with the input image
+    sh = im;
+
+    % Perform the filter
+    [rows, cols, ~] = size(im);
+    for i = 1:rows
+        for j = 1:cols
+            if mask(i, j) == 0
+                fl = 0;
+                w = INITIAL_WINDOW_SIZE;
+                while fl == 0
+                    rmin = max(i-w, 1); rmax = min(i+w, rows);
+                    cmin = max(j-w, 1); cmax = min(j+w, cols);
+
+                    % Extract the local regions
+                    localIm = im(rmin:rmax, cmin:cmax, :);
+                    localMask = mask(rmin:rmax, cmin:cmax);
+
+                    % Calculate the sum of the pixels in the local region
+                    % weighted by the mask
+                    localSum = sum(sum(bsxfun(@times, double(localIm), double(localMask)), 1), 2);
+                    pixelCount = sum(localMask(:));
+
+                    % Check if enough pixels are present
+                    if pixelCount > MIN_PIXELS
+                        % Calculate mean and assign it to the output pixel
+                        v = localSum / pixelCount;
+                        sh(i, j, :) = uint8(v);
+                        fl = 1;
+                    else
+                        w = w + 1;
+                    end
+                end
+            end
+        end
+    end
+end

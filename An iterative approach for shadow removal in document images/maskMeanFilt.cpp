@@ -1,3 +1,5 @@
+convert the following code to matlab
+
 #include "mexopencv.hpp"
 
 using namespace std;
