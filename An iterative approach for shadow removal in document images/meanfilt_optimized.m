@@ -25,14 +25,12 @@ results_dir = fullfile(images_dir, 'Result');
 % Preparations for saving resultss.
 if ~exist(results_dir, 'dir'), mkdir(results_dir); end
 
-lambda=0.01;
-mu=10;
 n_iter=10;
 for i_img = 1:1:length(listing)
     im = imread(fullfile(images_dir,listing(i_img).name));  
 
     [sh, rf, msk, iter] = maskMeanFiltcpp(im, n_iter);
     
-    imwrite(J, fullfile(results_dir, listing(i_img).name));
+    imwrite(sh, fullfile(results_dir, listing(i_img).name));
 
 end
